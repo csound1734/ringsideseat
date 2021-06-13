@@ -11,8 +11,8 @@
 * To execute from terminal, cd to `livecode.app/Contents/MacOS/`, then run `./livecode`
 
 ## Uploading a few files to the server (with netcat on local port 1734)
-* `cat beatStructure.orc | nc -u 127.0.0.1 1734`
-* `cat notes.orc | nc -u 127.0.0.1 1734`
+* `cat beatStructure.orc | nc -u 127.0.0.1 1734`  in other words, the running Csound instance from the cabbage program compiles this file
+* `cat notes.orc | nc -u 127.0.0.1 1734`   now compile another file, notes.orc
 
 ## Performance, real-time
 * First of all, MIDI input is accepted but at start-up there is nopremade MIDI instruments. To resolve this simply use livecoding (more on that in a sec) to input definitions for instr 1, instr 2, instr 3, ... instr 16. The first 16 instr are set to recieve MIDI events on channels 1-16.
