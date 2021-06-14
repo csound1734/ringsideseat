@@ -83,7 +83,7 @@ a1, a2, a3, a4	spat3di a0, iX, iY, iZ, gisptd, gisptf, gisptm
 
 ; ---- instr 1: render tables for cymbal instruments ----
 
-	instr 1
+	instr 101
 
 ifn	=  p4		/* ftable number		*/
 inumh	=  p5		/* number of partials		*/
