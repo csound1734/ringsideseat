@@ -3,8 +3,6 @@
 
 ; ---- tempo ----
 
-t 0 132
-
 ; -- instr 1: render tables for cymbal instruments --
 
 ; p3 : note length (should be 0)
@@ -17,34 +15,34 @@ t 0 132
 
 ; ---- generate cymbal tables ----
 
-i 101 0 0 101 600 1 0 114 3		; crash 2
-i 101 0 0 102 600 1 0 4 6			; hihat
-i 101 0 0 103 600 1 0 213 3		; crash 1
-;i 101 0 0 104 600 1 0 427 4		; crash 3 (not used)
-f 99 0 16 -2	0.3	7500	0	1	10500	0.2	\
-		0.3	14000	0.4	1	18000	0.8
-f 105 0 524288 -34 99 4 1 -4		; tambourine
-i 101 0 0 106 600 1 0 193 6		; hihat 2
-i 101 0 0 107 600 1 2 19 4		; ride
-;i 101 0 0 108 600 1 0 7 4			; ride 2 (not used)
+event_i, "i", 101, 0, 0, 101, 600, 1, 0, 114, 3		; crash 2
+event_i, "i", 101, 0, 0, 101, 600, 1, 0, 4, 6		; hihat
+event_i, "i", 101, 0, 0, 101, 600, 1, 0, 213, 3		; crash 1
+event_i, "i", 101, 0, 0, 101, 600, 1, 0, 427, 4		; crash 3 (not used)
+gi_tab99 ftgen 99, 0, 16, -2,	0.3,	7500,	0,	1,	10500,	0.2,	\ ;parameters to generate tamb waveform
+		0.3,	14000,	0.4,	1,	18000,	0.8 
+gi_tamb ftgen 105, 0, 524288, -34, 99, 4, 1, -4		; tambourine waveform
+event_i, "i", 101, 0, 0, 101, 600, 1, 0, 193, 6		; hihat
+event_i, "i", 101, 0, 0, 101, 600, 1, 0, 19, 4		; ride
+event_i, "i", 101, 0, 0, 101, 600, 1, 0, 7, 4		; ride 2 (not used)
 
 ; ---- misc. tables ----
 
 ; square wave
 
-#include "fgen_h.sco"
+#include "fgen_h.orc" ;TODO: file fgen_h.sco must be ported to .orc code
 
-f 301 0 16384 7 1 8192 1 0 -1 8192 -1
+gi_tab301 ftgen 301, 0, 16384, 7, 1, 8192, 1, 0, -1, 8192, -1
 $FGEN128(300'4096'301'1)
 
 ; sawtooth wave
 
-f 501 0 16384 7 1 16384 -1
+gi_tab501 ftgen 501, 0, 16384, 7, 1, 16384, -1
 $FGEN128(500'4096'501'1)
 
 ; sine
 
-f 700 0 4096 10 1
+gi_tabSin ftgen 700, 0, 4096, 10, 1
 
 ; window for cymbal instruments
 
