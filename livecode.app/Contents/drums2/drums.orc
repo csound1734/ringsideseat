@@ -1,3 +1,4 @@
+
 /* ======== drum instruments by Istvan Varga, Mar 10 2002 ======== */
 
 /* ----------------------- global variables ----------------------- */
@@ -23,11 +24,9 @@ ga2	init 0		; spat3di out 2
 ga3	init 0		; spat3di out 3
 ga4	init 0		; spat3di out 4
 
-; mono output file name (for external convolve unit)
+; mono output file name (for ext convolve unit)
 
-#define SNDFL_MONO # "mono_out.pcm" #
-
-/* ---------------------- some useful macros ---------------------- */
+gS_sndfl_mono = "mono_out.pcm"
 
 ; spatialize and send output
 
@@ -50,30 +49,44 @@ a1, a2, a3, a4	spat3di a0, iX, iY, iZ, gisptd, gisptf, gisptm
 
 #
 
-; convert velocity to amplitude
+ opcode Veloc2Amp, i, ii ;macro VELOC2AMP originally
+ivel, imaxamp xin
+ires = ((imaxamp) * (0.0039 + (ivel) * (ivel) / 16192))
+xout ires
+ endop
 
-#define VELOC2AMP(VELOCITY'MAXAMP) # (($MAXAMP) * (0.0039 + ($VELOCITY) * ($VELOCITY) / 16192)) #
+ opcode Midi2Cps, i, i ;macro MIDI2CPS
+inotenum xin
+ires = (440 * exp(log(2) * ((inotenum) - 69) / 12))
+xout ires
+ endop
 
-; convert MIDI note number to frequency
+ opcode Pow2Ceil, i, i ;macro POW2CEIL
+ip2c_x xin
+ires = (int(0.5 + exp(log(2) * int(1.01 + log(ip2c_x) / log(2)))))
+xout ires
+ endop
 
-#define MIDI2CPS(NOTNUM) # (440 * exp(log(2) * (($NOTNUM) - 69) / 12)) #
+ opcode Note2Freq, i, i ;macro NOTE2FREQ
+ixnote xin
+ires = (exp(log(2) * (ixnote) / 12))
+xout ires
+ endop
 
-; power of two number greater than x
+ opcode Cps2Fnum, k, kk ;macro CPS2FNUM
+kxcps, kbasefnum xin
+kres = int(69.5 + (kbasefnum) + 12 * log((kxcps) / 440) / log(2))
+xout kres
+ endop
+ 
+ opcode Cps2Fnum, i, ii ;macro CPS2FNUM
+ixcps, ibasefnum xin
+ires = int(69.5 + (ibasefnum) + 12 * log((ixcps) / 440) / log(2))
+xout ires
+ endop
 
-#define POW2CEIL(P2C_X) # (int(0.5 + exp(log(2) * int(1.01 + log($P2C_X) / log(2))))) #
-
-; semitones to frequency ratio
-
-#define NOTE2FRQ(XNOTE) # (exp(log(2) * ($XNOTE) / 12)) #
-
-; frequency to table number
-
-#define CPS2FNUM(XCPS'BASE_FNUM) # int(69.5 + ($BASE_FNUM) + 12 * log(($XCPS) / 440) / log(2)) #
-
-/* ---------------- constants ---------------- */
-
-#define PI	# 3.14159265 #
-#define TWOPI	# (2 * 3.14159265) #
+gi_PI = 3.14159265
+gi_TWOPI = (2 * 3.14159265)
 
 ; ---- instr 1: render tables for cymbal instruments ----
 
@@ -86,12 +99,12 @@ itrns	=  p7		/* transpose (in semitones)	*/
 isd	=  p8		/* random seed (1 to 2^31 - 2)	*/
 idst	=  p9		/* amplitude distribution	*/
 
-imaxf	=  $NOTE2FRQ(itrns) * gibwd		; max. frequency
+imaxf	Note2Freq (itrns) * gibwd		; max. frequency
 itmp	rnd31 1, 0, isd				; initialize seed
 
 ; create empty table for parameters
 
-ifln	=  $POW2CEIL(3 * inumh)
+ifln	Pow2Ceil (3 * inumh)
 itmp	ftgen gitmpfn, 0, ifln, -2, 0
 
 i1	=  0
@@ -118,10 +131,9 @@ itmp	ftgen ifn, 0, ifln, -33, gitmpfn, inumh, iscl, -(giovr)
 
 	endin
 
-
 /* ---- instr 10: cymbal ---- */
 
-	instr 10
+	instr 110
 
 ilnth	=  p3		/* note length				     */
 ifn	=  p4		/* function table with instrument parameters */
@@ -162,14 +174,13 @@ aenv1	linseg 1, ilnth, 1, irel, 0, 1, 0
 aenv1	=  aenv1 * aenv1
 
 ; output amplitude
-iamp	=  $VELOC2AMP(ivel'iscl)
+iamp	Veloc2Amp (ivel), (iscl)
 ; grain duration
 kgdur	port igdure, igdurt, igdurs
 ; 4 * sr = 192000Hz (sample rate of input file)
 a1	grain3	giovr * sr / ftlen(ixfn), 0.5, 0, 0.5,		      \
 		kgdur, iovrlp / kgdur, iovrlp + 2,		      \
 		ixfn, iwfn, 0, 0, 0, 16
-
 ; filters
 
 kEQf	port iEQfe, iEQft, iEQfs
@@ -195,7 +206,7 @@ $SPAT_OUT
 
 /* ---------------------- instr 20: bass drum ---------------------- */
 
-	instr 20
+	instr 120
 
 ; +------------+             +------------+     +------------+
 ; | oscillator |--->---+-->--| highpass 1 |-->--| bandpass 1 |-->--+
@@ -268,7 +279,7 @@ insmx	table 33, ifn	; noise mix
 ixtim	=  gisptx + idel + irel		; expand note length
 p3	=  p3 + ixtim
 ; note amplitude
-iamp	=  $VELOC2AMP(ivel'iscl)
+iamp	Veloc2Amp (ivel), (iscl)
 ; release envelope
 aenv	linseg 1, ilnth, 1, irel, 0, 1, 0
 aenv	=  aenv * aenv
@@ -293,12 +304,12 @@ a_ns	=  a_ns * a_nse1 * a_nse2
 ; ---- oscillator ----
 
 ; base frequency
-icps	=  $MIDI2CPS(ibsfrq)
+icps	Midi2Cps (ibsfrq)
 ; oscillator frequency
 kfrq	expon 1, ibtime * ifrqt, 0.5
 kfrq	=  icps * (1 + (ifrqs - 1) * kfrq)
 ; table number
-kfn	=  $CPS2FNUM(kfrq'300)
+kfn	Cps2Fnum (kfrq), k(300)
 a1	phasor kfrq
 a2	tablexkt a1, kfn, 0, 2, 1, 0, 1
 a1	=  a2 * 16384
@@ -358,9 +369,9 @@ idect	table 11, ifn	; decay half-time
 ixtim	=  gisptx + idel + irel		; expand note length
 p3	=  p3 + ixtim
 ; note amplitude
-iamp	=  $VELOC2AMP(ivel'iscl)
+iamp	Veloc2Amp (ivel), (iscl)
 
-icps	=  $MIDI2CPS(ibsfrq)
+icps	Midi2Cps (ibsfrq)
 kcps	port 1, ifrqt, ifrqs
 kcps	=  icps * kcps
 
@@ -405,7 +416,7 @@ idec4	table 16, ifn	; decay 4
 ixtim	=  gisptx + idel + irel		; expand note length
 p3	=  p3 + ixtim
 ; note amplitude
-iamp	=  $VELOC2AMP(ivel'iscl)
+iamp	Veloc2Amp (ivel),(iscl)
 ; bandwidth envelope
 kbwd	port ibwe, ibwt, ibws
 ; amp. envelope
@@ -459,12 +470,12 @@ iresn	table 15, ifn	; resonance at osc2 frequency
 ixtim	=  gisptx + idel + irel		; expand note length
 p3	=  p3 + ixtim
 ; note amplitude
-iamp	=  $VELOC2AMP(ivel'iscl)
+iamp	Veloc2Amp (ivel), (iscl)
 
-ifrq1	=  $MIDI2CPS(ifrq1)
-ifn1	=  $CPS2FNUM(ifrq1'500)
-ifrq2	=  $MIDI2CPS(ifrq2)
-ifn2	=  $CPS2FNUM(ifrq2'500)
+ifrq1	Midi2Cps (ifrq1)
+ifn1	Cps2Fnum (ifrq1), (500)
+ifrq2	Midi2Cps (ifrq2)
+ifn2	Cps2Fnum (ifrq2), (500)
 
 a1	oscili 1, ifrq1, ifn1
 a2	oscili 1, ifrq2, ifn2
@@ -518,21 +529,21 @@ idect2	table 20, ifn	; decay 2 half-time
 ixtim	=  gisptx + idel + irel		; expand note length
 p3	=  p3 + ixtim
 ; note amplitude
-iamp	=  $VELOC2AMP(ivel'iscl)
+iamp	Veloc2Amp (ivel), (iscl)
 
-ifrq1	=  $MIDI2CPS(ibsfrq)		; oscillator frequencies
+ifrq1	Midi2Cps (ibsfrq)		; oscillator frequencies
 ifrq2	=  ifrq1 * ifrq2
 ifrq3	=  ifrq1 * ifrq3
 ifrq4	=  ifrq1 * ifrq4
 ifrq5	=  ifrq1 * ifrq5
 ifrq6	=  ifrq1 * ifrq6
 
-ifn1	=  $CPS2FNUM(ifrq1'300)		; table numbers
-ifn2	=  $CPS2FNUM(ifrq2'300)
-ifn3	=  $CPS2FNUM(ifrq3'300)
-ifn4	=  $CPS2FNUM(ifrq4'300)
-ifn5	=  $CPS2FNUM(ifrq5'300)
-ifn6	=  $CPS2FNUM(ifrq6'300)
+ifn1	Cps2Fnum (ifrq1), (300)		; table numbers
+ifn2	Cps2Fnum (ifrq2), (300)
+ifn3	Cps2Fnum (ifrq3), (300)
+ifn4	Cps2Fnum (ifrq4), (300)
+ifn5	Cps2Fnum (ifrq5), (300)
+ifn6	Cps2Fnum (ifrq6), (300)
 
 iphs1	unirand 1			; start phase
 iphs2	unirand 1
@@ -610,9 +621,9 @@ aenv1	linseg 1, ilnth, 1, irel, 0, 1, 0
 aenv1	=  aenv1 * aenv1
 
 ; output amplitude
-iamp	=  $VELOC2AMP(ivel'iscl)
+iamp	Veloc2Amp (ivel), (iscl)
 
-icps0	=  $MIDI2CPS(ibsfrq)	; frequency envelope
+icps0	Midi2Cps (ibsfrq)	; frequency envelope
 icps1	=  ifrqs * icps0
 acps	expon 1, ifrqt, 0.5
 acps	=  icps0 + (icps1 - icps0) * acps	; osc 1 frequency
@@ -688,9 +699,9 @@ aenv1	linseg 1, ilnth, 1, irel, 0, 1, 0
 aenv1	=  aenv1 * aenv1
 
 ; output amplitude
-iamp	=  $VELOC2AMP(ivel'iscl)
+iamp	Veloc2Amp (ivel), (iscl)
 
-icps0	=  $MIDI2CPS(ibsfrq)	; frequency envelope
+icps0	Midi2Cps (ibsfrq)	; frequency envelope
 icps1	=  ifrqs * icps0
 acps	expon 1, ifrqt, 0.5
 acps	=  icps0 + (icps1 - icps0) * acps	; osc 1 frequency
@@ -770,9 +781,9 @@ p3	=  p3 + ixtime
 aenv1	linseg 1, ilnth, 1, irel, 0, 1, 0
 aenv1	=  aenv1 * aenv1
 
-iamp	=  $VELOC2AMP(ivel'1)		; velocity
+iamp	Veloc2Amp (ivel), (1)		; velocity
 
-icps	=  $MIDI2CPS(ibsfrq)		; base frequency
+icps	Midi2Cps (ibsfrq)		; base frequency
 acps	expon 1, ifrqt, 0.5
 acps	=  icps * (1 + (ifrqs - 1) * acps)
 
@@ -848,7 +859,7 @@ aR	=  0.7071 * (a1re + a1im) + 0.5 * (a2re - a2im - a3re - a3im)
 
 ; mono output
 
-	soundout a0, $SNDFL_MONO, 6
+	;soundout a0, $SNDFL_MONO, 6
 
 	endin
 
