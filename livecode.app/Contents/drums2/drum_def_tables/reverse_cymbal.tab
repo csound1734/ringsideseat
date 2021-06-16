@@ -1,7 +1,7 @@
 
 /* ---- reverse cymbal ---- */
 
-# f 12 0 32 -2	
+#f 12 0 32 -2	
 		400	; amplitude scale
 		0.016	; delay
 		0.03	; release time

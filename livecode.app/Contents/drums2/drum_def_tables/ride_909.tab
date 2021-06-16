@@ -1,0 +1,30 @@
+
+/* ---- ride cymbal ---- */
+
+#f 17 0 32 -2	
+		450	; amplitude scale
+		0.02	; delay
+		0.05	; release time
+		-1.2	; X
+		-1.75	; Y
+		0	; Z
+		107	; input table
+		100	; window table
+		0.0005	; start grain duration in seconds
+		0.01	; grain druaton envelope half-time
+		0.4	; end grain duration
+		50	; number of overlaps
+		12000	; EQ start frequency
+		1	; EQ frequency envelope half-time
+		12000	; EQ end frequency
+		2	; EQ start level (Q is level * 0.7071)
+		1	; EQ level envelope half-time
+		2	; EQ end level
+		1000	; highpass frequency
+		22000	; lowpass frequency
+		0.1	; decay env. half-time (n.a. in reverse mode)
+		1	; reverse cymbal mode (0: on, 1: off)
+		0.001	; delay time for chorus effect
+		1	; non-delayed signal level
+		0	; delayed signal level
+

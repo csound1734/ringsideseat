@@ -1,0 +1,17 @@
+
+/* ---- TR-808 hi-hat (closed) ---- */
+
+f 41 0 32 -2	20000			/* amplitude scale	     */
+		0.02			/* delay		     */
+		0.04			/* release time		     */
+		-1.87	-1	0	/* X, Y, Z coordinates	     */
+		73			/* base freq. (MIDI note)    */
+		1.4471	1.6170		/* osc 2, 3 freq. / base frq */
+		1.9265	2.5028	2.6637	/* osc 4, 5, 6 frq / base f. */
+		0.25			/* distort start (see orc)   */
+		1			/* distortion env. half-time */
+		0.25			/* distort end		     */
+		5400	1.0		/* highpass freq, resonance  */
+		0.0005			/* attack time		     */
+		0.025	0.5		/* decay time 1, level 1     */
+		0.025			/* decay 2 half-time	     */

@@ -1,0 +1,29 @@
+
+/* ---- hi-hat 2 ---- */
+
+f 16 0 32 -2	400	; amplitude scale
+		0.008	; delay
+		0.02	; release time
+		-1.75	; X
+		1.2	; Y
+		0	; Z
+		106	; input table
+		100	; window table
+		0.08	; start grain duration in seconds
+		0.05	; grain druaton envelope half-time
+		0.08	; end grain duration
+		50	; number of overlaps
+		8000	; EQ start frequency
+		1	; EQ frequency envelope half-time
+		8000	; EQ end frequency
+		2	; EQ start level (Q is level * 0.7071)
+		1	; EQ level envelope half-time
+		2	; EQ end level
+		1000	; highpass frequency
+		14000	; lowpass frequency
+		0.25	; decay env. half-time (n.a. in reverse mode)
+		1	; reverse cymbal mode (0: on, 1: off)
+		0.015	; delay time for chorus effect
+		0.3	; non-delayed signal level
+		1	; delayed signal level
+

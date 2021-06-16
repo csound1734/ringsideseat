@@ -1,0 +1,15 @@
+
+/* ---- hand clap ---- */
+
+#f 30 0 32 -2	
+		550000000		/* amplitude scale	     */
+		0.010			/* delay		     */
+		0.02			/* release time		     */
+		-0.5	2	0	/* X, Y, Z coordinates	     */
+		1046.5			/* bandpass frequency	     */
+		4186	0.03	261.63	/* bandwidth envelope start, */
+					/* half-time, and end value  */
+		0.011	0.023	0.031	/* delay 2, 3, and 4	     */
+		0.0167	0.0167	0.0167	/* decay 1, 2, and 3	     */
+		0.5			/* decay 4		     */
+

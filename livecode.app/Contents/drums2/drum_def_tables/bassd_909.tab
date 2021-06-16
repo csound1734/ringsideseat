@@ -1,0 +1,39 @@
+
+/* ---- bass drum ---- */
+
+#f 20 0 64 -2	
+		0.6	; volume
+		0.020	; delay (in seconds)
+		0.03	; release time (sec.)
+		0	; X
+		1	; Y
+		0	; Z
+		140	; tempo
+		31	; base frequency (MIDI note number)
+		5.3333	; oscillator start frequency / base frequency
+		0.0714	; oscillator freq. envelope half-time in beats
+		0.5	; bandpass 1 bandwidth / oscillator frequency
+		0.0625	; highpass 1 freq. / oscillator frequency
+		0.5	; "allpass" 1 start freq. / oscillator frq.
+		0.125	; "allpass" 1 envelope half-time in beats
+		1.0	; "allpass" 1 end frq. / oscillator frequency
+		8	; highpass 2 frequency / base frequency
+		-3	; highpass 2 output gain
+		0.5	; highpass 3 freq. / base frequency
+		-0.4	; highpass 3 output gain
+		1.5	; output highpass frequency / base frequency
+		2	; output highpass resonance
+		16	; output lowpass start freq 1 / oscillator frq.
+		0.01	; output lowpass frequency 1 half-time in beats
+		16	; output lowpass start freq 2 / oscillator frq.
+		0.08	; output lowpass frequency 2 half-time in beats
+		7040	; noise bandpass start frequency in Hz
+		7040	; noise bandpass end frequency in Hz
+		2	; noise bandpass bandwidth / frequency
+		3520	; noise lowpass start frequency (Hz)
+		55	; noise lowpass end frequency (Hz)
+		0.0833	; noise filter envelope half-time in beats
+		0.01	; noise attack time (in seconds)
+		0.3333	; noise decay half-time (in beats)
+		0.5	; noise mix
+

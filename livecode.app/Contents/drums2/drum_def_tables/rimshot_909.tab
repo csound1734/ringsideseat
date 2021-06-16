@@ -1,0 +1,22 @@
+
+/* ---- rim shot ---- */
+
+#f 56 0 32 -2	
+		10000			/* amplitude scale	     */
+		0.0195			/* delay		     */
+		0.04			/* release time		     */
+		-1.5	0.5	0	/* X, Y, Z coordinates	     */
+		56			/* base freq. (MIDI note)    */
+		2			/* start freq. / base frq.   */
+		0.0025			/* frequency env. half-time  */
+		3	0.02	0	/* FM depth start, envelope  */
+					/*   half-time, end	     */
+		0.1	2000		/* noise amp., lowpass frq.  */
+		4	0.006	0	/* amplitude (before	     */
+					/*   distortion) start, env. */
+					/*   half-time, end	     */
+		-4	4000	0.0002	/* highpass filtered signal  */
+					/*   (after distortion) amp, */
+					/*   cutoff frequency, delay */
+		20000	0.009	100	/* output lowpass start frq, */
+					/*   env. half-time, end frq */

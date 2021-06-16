@@ -1,0 +1,21 @@
+
+/* ---- TR-909 snare drum 1 ---- */
+
+#f 50 0 32 -2	
+		20000			/* amplitude scale	     */
+		0.02			/* delay		     */
+		0.04			/* release time		     */
+		-0.5	1.25	0	/* X, Y, Z coordinates	     */
+		49			/* base freq. (MIDI note)    */
+		3			/* start freq. / base frq.   */
+		0.005			/* frequency env. half-time  */
+		0.5	0.005	0.2	/* FM depth start, envelope  */
+					/*   half-time, end	     */
+		1.4983			/* osc 2 frq. / osc 1 frq.   */
+		1.0	0.01	0	/* osc 2 amp. start, env.    */
+					/*   half-time, end	     */
+		2500	10000		/* noise BP freq., bandwidth */
+		0	0.01	0.7	/* noise amp. start, env.    */
+					/*   half-time, end	     */
+		0.04			/* decay envelope half-time  */
+
