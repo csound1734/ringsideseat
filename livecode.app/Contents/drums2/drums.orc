@@ -1,10 +1,4 @@
-sr	=  48000
-kr	=  1000
-nchnls	=  2
-
 /* ======== drum instruments by Istvan Varga, Mar 10 2002 ======== */
-
-	seed 0
 
 /* ----------------------- global variables ----------------------- */
 

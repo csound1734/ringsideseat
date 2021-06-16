@@ -1,5 +1,5 @@
 <Cabbage>
-form caption("Untitled") bundle("reserveInstruments.txt") size(1200, 200), colour(58, 110, 182), pluginId("def1") guiMode("queue")
+	form caption("Untitled") bundle("reserveInstruments.txt", "drums2/drums-nomacro.orc") size(1200, 200), colour(58, 110, 182), pluginId("def1") guiMode("queue")
 csoundoutput bounds(600, 010, 580, 180)
 </Cabbage>
 <CsoundSynthesizer>
@@ -11,6 +11,8 @@ csoundoutput bounds(600, 010, 580, 180)
 sr = 48000
 ksmps = 32
 nchnls = 2
+
+#include "drums2/drums-nomacro.orc"
 
 ;  Compile "blank" instruments (no code).
 ;these will be default MIDI instruments

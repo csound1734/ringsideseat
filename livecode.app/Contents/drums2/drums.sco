@@ -1,5 +1,6 @@
 
 ; ============ drums.sco - written by Istvan Varga, 2002 ============
+/* Ported from score code to orc code by Jim Patalano, 2021 */
 
 ; ---- tempo ----
 
@@ -46,45 +47,45 @@ gi_tabSin ftgen 700, 0, 4096, 10, 1
 
 ; window for cymbal instruments
 
-f 100 0 16385 5 1 16385 0.01
+gi_tabWn ftgen 100, 0, 16385, 5, 1, 16385, 0.01
 
 ; ---- include room parameters ----
 
-#include "room.sco"
+#include "room.sco" ;TODO
 
 ; ================ instrument definitions ================
 
 /* ---- crash cymbal 1 ---- */
 
-f 10 0 32 -2	900	; amplitude scale
-		0.015	; delay
-		0.1	; release time
-		-1	; X
-		1.87	; Y
-		0	; Z
-		103	; input table
-		100	; window table
-		0.225	; start grain duration in seconds
-		0.10	; grain druaton envelope half-time
-		0.1	; end grain duration
-		40	; number of overlaps
-		10000	; EQ start frequency
-		1	; EQ frequency envelope half-time
-		10000	; EQ end frequency
-		1	; EQ start level (Q is level * 0.7071)
-		0.14	; EQ level envelope half-time
-		4	; EQ end level
-		500	; highpass frequency
-		20000	; lowpass frequency
-		0.16	; decay env. half-time (n.a. in reverse mode)
-		1	; reverse cymbal mode (0: on, 1: off)
-		0.001	; delay time for chorus effect
-		1	; non-delayed signal level
+gi_909Cr1 ftgen 10, 0, 32, -2,	900, \	; amplitude scale
+		0.015, \	; delay
+		0.1, \	; release time
+		-1, \	; X
+		1.87, \	; Y
+		0, \	; Z
+		103, \	; input table
+		100, \	; window table
+		0.225, \	; start grain duration in seconds
+		0.10, \	; grain druaton envelope half-time
+		0.1, \	; end grain duration
+		40, \	; number of overlaps
+		10000, \	; EQ start frequency
+		1, \	; EQ frequency envelope half-time
+		10000, \	; EQ end frequency
+		1, \	; EQ start level (Q is level * 0.7071)
+		0.14, \	; EQ level envelope half-time
+		4, \	; EQ end level
+		500, \	; highpass frequency
+		20000, \	; lowpass frequency
+		0.16, \	; decay env. half-time (n.a. in reverse mode)
+		1, \	; reverse cymbal mode (0: on, 1: off)
+		0.001, \	; delay time for chorus effect
+		1, \	; non-delayed signal level
 		0	; delayed signal level
 
 /* ---- crash cymbal 2 ---- */
 
-f 11 0 32 -2	900	; amplitude scale
+gi_ f 11 0 32 -2	900	; amplitude scale
 		0.015	; delay
 		0.1	; release time
 		0.5	; X
